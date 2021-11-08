@@ -194,7 +194,30 @@ sJugador inicializarLadron()
 }
 
 //Se encarga de mover a un jugador
-void movimiento(string tablero[][MAXC], int filas, int columnas, sJugador jugador, bool turno)
+void movimiento(string tablero[][MAXC], int filas, int columnas, sJugador &jugador, bool &turno, sMovimiento dado)
 {
+    dado = dados();
+    if (turno)
+    {
+        if (dado.direccion == "arriba")
+        {
+            
+        }
+        else if (dado.direccion == "abajo")
+        {
 
+        }
+        else if (dado.direccion == "izquierda")
+        {
+
+        }
+        else //Derecha
+        {
+
+        }
+    }
+    else
+    {
+
+    }
 }
