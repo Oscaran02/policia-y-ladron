@@ -25,17 +25,24 @@ struct sArma
 
 struct sJugador
 {
-
+    int posF;
+    int posC;
+    sArma armas[2];
     int energia = 30;
 };
 
 //Funciones
 void inicializarTablero(string tablero[][MAXC], int filas, int columnas);
 void imprimirTablero(string tablero[][MAXC], int filas, int columnas);
+sMovimiento dados();
+sArma inicializarArmas(sArma arma);
+sJugador inicializarPolicia(int filas, int columnas);
+sJugador inicializarLadron();
 
 //Función principal
 int main()
 {
+    //Inicialización de valores
     string tablero[MAXF][MAXF];
     sMovimiento dado;
     int filas, columnas;
@@ -43,7 +50,8 @@ int main()
     cin >> filas;
     cout << "Ingrese el numero de columnas del tablero: ";
     cin >> columnas;
-    
+    sJugador policia = inicializarPolicia(filas,columnas);
+    sJugador ladron = inicializarLadron();
     inicializarTablero(tablero, filas, columnas);
     imprimirTablero(tablero, filas, columnas);
 
@@ -127,4 +135,30 @@ sArma inicializarArmas(sArma arma)
         arma.probabilidad = 0.4;
     }
     return arma;
+}
+
+//Ingresa los valores inciales del policia
+sJugador inicializarPolicia(int filas, int columnas)
+{
+    sJugador policia;
+    policia.armas[0].nombre = "gas";
+    policia.armas[1].nombre = "bolillo";
+    policia.armas[0] = inicializarArmas(policia.armas[0]);
+    policia.armas[1] = inicializarArmas(policia.armas[1]);
+    policia.posF = filas - 1;
+    policia.posC = columnas - 1;
+    return policia;
+}
+
+//Ingresa los valores iniciales del ladrón
+sJugador inicializarLadron()
+{
+    sJugador ladron;
+    ladron.armas[0].nombre = "celular";
+    ladron.armas[1].nombre = "libro";
+    ladron.armas[0] = inicializarArmas(ladron.armas[0]);
+    ladron.armas[1] = inicializarArmas(ladron.armas[1]);
+    ladron.posF = 0;
+    ladron.posC = 0;
+    return ladron;
 }
