@@ -45,7 +45,7 @@ int main()
     //Inicialización de valores
     string tablero[MAXF][MAXF];
     sMovimiento dado;
-    int filas, columnas;
+    int filas, columnas, salida = 0;
     cout << "Ingrese el numero de filas del tablero: ";
     cin >> filas;
     cout << "Ingrese el numero de columnas del tablero: ";
@@ -54,7 +54,26 @@ int main()
     sJugador ladron = inicializarLadron();
     inicializarTablero(tablero, filas, columnas);
     imprimirTablero(tablero, filas, columnas);
+    system("pause");
+    system("cls");
 
+    //Ejecución del juego
+    while (salida != 1 && salida != 2) //1 modo duelo, 2 sin energia
+    {
+
+    }
+
+    //Modo duelo
+    if (salida == 1)
+    {
+
+    }
+
+    //Sin energia uno de los dos jugadores
+    else if (salida == 2)
+    {
+
+    }
 }
 
 //Inicia el tablero
@@ -162,3 +181,4 @@ sJugador inicializarLadron()
     ladron.posC = 0;
     return ladron;
 }
+
