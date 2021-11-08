@@ -19,8 +19,8 @@ struct sMovimiento
 struct sArma
 {
     string nombre; //Nombre del arma usada
-    float contundencia; //Letalidad del arma usada
-    float probabilidad; //Probabilidad de impacto del arma
+    double contundencia; //Letalidad del arma usada
+    double probabilidad; //Probabilidad de impacto del arma
 };
 
 struct sJugador
@@ -64,7 +64,7 @@ int main()
     {
         if (!turno) //Turno ladrón
         {
-            dado = dados();
+            
         }
         else //Turno policia
         {
@@ -196,12 +196,29 @@ sJugador inicializarLadron()
 //Se encarga de mover a un jugador
 void movimiento(string tablero[][MAXC], int filas, int columnas, sJugador &jugador, bool &turno, sMovimiento dado)
 {
+    int posAntigua;
+    int movimientosRestantes;
     dado = dados();
-    if (turno)
+    if (turno) //Policia
     {
         if (dado.direccion == "arriba")
         {
-            
+            posAntigua = jugador.posF;
+            movimientosRestantes = dado.movimiento;
+            while (jugador.posF - movimientosRestantes < 0)
+            {
+                if (jugador.posF - movimientosRestantes < 0)
+                {
+                    movimientosRestantes = (jugador.posF - movimientosRestantes) * -1;
+                    if (movimientosRestantes >= filas)
+                    {
+                        movimientosRestantes = (filas - 1 - movimientosRestantes) * -1;
+                    }
+                }                
+            }
+            jugador.posF = movimientosRestantes;
+            tablero[posAntigua][jugador.posC] = "x";
+            tablero[jugador.posF][jugador.posC] = "P"; //remplazo de letra por el jugador
         }
         else if (dado.direccion == "abajo")
         {
@@ -216,7 +233,7 @@ void movimiento(string tablero[][MAXC], int filas, int columnas, sJugador &jugad
 
         }
     }
-    else
+    else //Ladrón
     {
 
     }
