@@ -54,7 +54,8 @@ void inicializarTablero(string tablero [][MAXC], int filas, int columnas)
         }
     }
     tablero[0][0] = "L";
-    tablero[filas-1][columnas-1] = "P";
+    tablero[filas - 1][columnas - 1] = "P";
+    
 }
 
 //Imprime el tablero
@@ -75,5 +76,25 @@ void imprimirTablero(string tablero[][MAXC], int filas, int columnas)
 sMovimiento dados()
 {
     sMovimiento dado;
-
+    int direccion;
+    srand(time(NULL));
+    dado.movimiento = 1 + rand() % (6);
+    srand(time(NULL));
+    direccion = 1 + rand() % (4);
+    switch (direccion)
+    {
+        case 1:
+            dado.direccion = "arriba";
+            break;
+        case 2:
+            dado.direccion = "abajo";
+            break;
+        case 3:
+            dado.direccion = "izquierda";
+            break;
+        case 4:
+            dado.direccion = "derecha";
+            break;
+    }
+    return dado;
 }
