@@ -18,17 +18,17 @@ struct sMovimiento
 
 struct sArma
 {
-    string nombre;
-    float contundencia;
-    float probabilidad;
+    string nombre; //Nombre del arma usada
+    float contundencia; //Letalidad del arma usada
+    float probabilidad; //Probabilidad de impacto del arma
 };
 
 struct sJugador
 {
-    int posF;
-    int posC;
-    sArma armas[2];
-    int energia = 30;
+    int posF; //Posición en y
+    int posC; //Posición en x
+    sArma armas[2]; //Dos armas del jugador
+    int energia = 30; //Energia del jugador
 };
 
 //Funciones
@@ -45,11 +45,13 @@ int main()
     //Inicialización de valores
     string tablero[MAXF][MAXF];
     sMovimiento dado;
+    bool turno = false; //False para ladrón, true para policia
     int filas, columnas, salida = 0;
     cout << "Ingrese el numero de filas del tablero: ";
     cin >> filas;
     cout << "Ingrese el numero de columnas del tablero: ";
     cin >> columnas;
+    system("cls");
     sJugador policia = inicializarPolicia(filas,columnas);
     sJugador ladron = inicializarLadron();
     inicializarTablero(tablero, filas, columnas);
@@ -58,22 +60,31 @@ int main()
     system("cls");
 
     //Ejecución del juego
-    while (salida != 1 && salida != 2) //1 modo duelo, 2 sin energia
+    while (salida != 1)
     {
+        if (!turno) //Turno ladrón
+        {
+            dado = dados();
+        }
+        else //Turno policia
+        {
 
+        }
+
+        //Si se queda alguien sin energia
+        if (true)
+        {
+
+        }
+
+        //Si entra en modo duelo
+        if (true)
+        {
+
+        }
     }
 
-    //Modo duelo
-    if (salida == 1)
-    {
-
-    }
-
-    //Sin energia uno de los dos jugadores
-    else if (salida == 2)
-    {
-
-    }
+    //Pantalla de ganador
 }
 
 //Inicia el tablero
@@ -104,7 +115,7 @@ void imprimirTablero(string tablero[][MAXC], int filas, int columnas)
             cout << tablero[i][j] << "\t";
         }
     }
-    cout << endl;
+    cout << endl << endl;
 }
 
 //Entrega los dados con una direccion y un numero de posiciones
@@ -182,3 +193,8 @@ sJugador inicializarLadron()
     return ladron;
 }
 
+//Se encarga de mover a un jugador
+void movimiento(string tablero[][MAXC], int filas, int columnas, sJugador jugador, bool turno)
+{
+
+}
