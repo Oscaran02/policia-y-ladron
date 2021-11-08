@@ -1,9 +1,27 @@
 #include <iostream>
+#include <string>
+#include <cstdlib>
+#include<cmath>
+#include <ctime>
 
 using namespace std;
 
 //Constantes de valor máximo de la matriz (filas y columnas respectivamente)
 const int MAXF = 100, MAXC = 100;
+
+//Estructuras
+struct sMovimiento
+{
+    string direccion; //Arriba, abajo, izquierda o derecha
+    int movimiento; //Entre el 1 y el 6
+};
+
+struct sArma
+{
+    string nombre;
+    float contundencia;
+    float impacto;
+};
 
 //Funciones
 void inicializarTablero(string tablero[][MAXC], int filas, int columnas);
@@ -35,8 +53,11 @@ void inicializarTablero(string tablero [][MAXC], int filas, int columnas)
             tablero[i][j] = "x";
         }
     }
+    tablero[0][0] = "L";
+    tablero[filas-1][columnas-1] = "P";
 }
 
+//Imprime el tablero
 void imprimirTablero(string tablero[][MAXC], int filas, int columnas)
 {
     for (int i = 0; i < filas; i++)
@@ -49,4 +70,10 @@ void imprimirTablero(string tablero[][MAXC], int filas, int columnas)
         }
     }
     cout << endl;
+}
+
+sMovimiento dados()
+{
+    sMovimiento dado;
+
 }
