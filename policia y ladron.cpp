@@ -20,7 +20,13 @@ struct sArma
 {
     string nombre;
     float contundencia;
-    float impacto;
+    float probabilidad;
+};
+
+struct sJugador
+{
+
+    int energia = 30;
 };
 
 //Funciones
@@ -31,6 +37,7 @@ void imprimirTablero(string tablero[][MAXC], int filas, int columnas);
 int main()
 {
     string tablero[MAXF][MAXF];
+    sMovimiento dado;
     int filas, columnas;
     cout << "Ingrese el numero de filas del tablero: ";
     cin >> filas;
@@ -73,6 +80,7 @@ void imprimirTablero(string tablero[][MAXC], int filas, int columnas)
     cout << endl;
 }
 
+//Entrega los dados con una direccion y un numero de posiciones
 sMovimiento dados()
 {
     sMovimiento dado;
@@ -97,4 +105,26 @@ sMovimiento dados()
             break;
     }
     return dado;
+}
+
+//Le da valores al arma dependiendo del arma recibida
+sArma inicializarArmas(sArma arma)
+{
+    if (arma.nombre == "celular") {
+        arma.contundencia = 0.4;
+        arma.probabilidad = 0.7;
+    }
+    else if (arma.nombre == "libro") {
+        arma.contundencia = 0.8;
+        arma.probabilidad = 0.4;
+    }
+    else if (arma.nombre == "gas") {
+        arma.contundencia = 0.5;
+        arma.probabilidad = 0.6;
+    }
+    else if (arma.nombre == "bolillo") {
+        arma.contundencia = 0.7;
+        arma.probabilidad = 0.4;
+    }
+    return arma;
 }
