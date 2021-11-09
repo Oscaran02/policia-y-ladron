@@ -33,12 +33,12 @@ struct sJugador
 
 //Funciones
 void inicializarTablero(string tablero[][MAXC], int filas, int columnas);
-void imprimirTablero(string tablero[][MAXC], int filas, int columnas);
+void imprimirTablero(string tablero[][MAXC], int filas, int columnas, sJugador policia, sJugador ladron);
 sMovimiento dados();
 sArma inicializarArmas(sArma arma);
 sJugador inicializarPolicia(int filas, int columnas);
 sJugador inicializarLadron();
-void movimiento(string tablero[][MAXC], int filas, int columnas, sJugador& policia, sJugador& ladron, bool& turno, sMovimiento dado);
+void movimiento(string tablero[][MAXC], int filas, int columnas, sJugador& policia, sJugador& ladron, bool& turno, sMovimiento& dado);
 
 //Función principal
 int main()
@@ -56,26 +56,22 @@ int main()
     sJugador policia = inicializarPolicia(filas,columnas);
     sJugador ladron = inicializarLadron();
     inicializarTablero(tablero, filas, columnas);
-    imprimirTablero(tablero, filas, columnas);
-    system("pause");
-    system("cls");
+    imprimirTablero(tablero, filas, columnas, policia, ladron);
+    
 
     //Ejecución del juego
     while (salida != 1)
     {
-        if (!turno) //Turno ladrón
-        {
-            
-        }
-        else //Turno policia
-        {
-
-        }
+        movimiento(tablero, filas, columnas, policia, ladron, turno, dado);
 
         //Si se queda alguien sin energia
-        if (true)
+        if (policia.energia<0)
         {
-
+            salida = 1;
+        }
+        else if (ladron.energia < 0)
+        {
+            salida = 1;
         }
 
         //Si entra en modo duelo
@@ -83,6 +79,7 @@ int main()
         {
 
         }
+        imprimirTablero(tablero, filas, columnas, policia, ladron);
     }
 
     //Pantalla de ganador
@@ -105,7 +102,7 @@ void inicializarTablero(string tablero [][MAXC], int filas, int columnas)
 }
 
 //Imprime el tablero
-void imprimirTablero(string tablero[][MAXC], int filas, int columnas)
+void imprimirTablero(string tablero[][MAXC], int filas, int columnas, sJugador policia, sJugador ladron)
 {
     for (int i = 0; i < filas; i++)
     {        
@@ -117,6 +114,10 @@ void imprimirTablero(string tablero[][MAXC], int filas, int columnas)
         }
     }
     cout << endl << endl;
+    cout << "Energia del ladron: " << ladron.energia <<endl;
+    cout << "Energia del policia: " << policia.energia <<endl;
+    system("pause");
+    system("cls");
 }
 
 //Entrega los dados con una direccion y un numero de posiciones
@@ -195,7 +196,7 @@ sJugador inicializarLadron()
 }
 
 //Se encarga de mover a un jugador
-void movimiento(string tablero[][MAXC], int filas, int columnas, sJugador &policia, sJugador &ladron, bool &turno, sMovimiento dado)
+void movimiento(string tablero[][MAXC], int filas, int columnas, sJugador &policia, sJugador &ladron, bool &turno, sMovimiento &dado)
 {
     int posAntigua;
     int movimientosRestantes;
@@ -385,7 +386,7 @@ void movimiento(string tablero[][MAXC], int filas, int columnas, sJugador &polic
             }
             //Actualización del tablero
             tablero[posAntigua][ladron.posC] = "x";
-            tablero[ladron.posF][ladron.posC] = "P"; //remplazo de letra por el ladron
+            tablero[ladron.posF][ladron.posC] = "L"; //remplazo de letra por el ladron
         }
         else if (dado.direccion == "abajo")
         {
@@ -421,7 +422,7 @@ void movimiento(string tablero[][MAXC], int filas, int columnas, sJugador &polic
             }
             //Actualización del tablero
             tablero[posAntigua][ladron.posC] = "x";
-            tablero[ladron.posF][ladron.posC] = "P"; //remplazo de letra por el ladron
+            tablero[ladron.posF][ladron.posC] = "L"; //remplazo de letra por el ladron
         }
         else if (dado.direccion == "izquierda")
         {
@@ -457,7 +458,7 @@ void movimiento(string tablero[][MAXC], int filas, int columnas, sJugador &polic
             }
             //Actualización del tablero
             tablero[ladron.posF][posAntigua] = "x";
-            tablero[ladron.posF][ladron.posC] = "P"; //remplazo de letra por el ladron
+            tablero[ladron.posF][ladron.posC] = "L"; //remplazo de letra por el ladron
         }
         else //Derecha
         {
@@ -493,7 +494,7 @@ void movimiento(string tablero[][MAXC], int filas, int columnas, sJugador &polic
             }
             //Actualización del tablero
             tablero[ladron.posF][posAntigua] = "x";
-            tablero[ladron.posF][ladron.posC] = "P"; //remplazo de letra por el ladron
+            tablero[ladron.posF][ladron.posC] = "L"; //remplazo de letra por el ladron
         }
     }
 
