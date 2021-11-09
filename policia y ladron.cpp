@@ -28,7 +28,7 @@ struct sJugador
     int posF; //Posición en y
     int posC; //Posición en x
     sArma armas[2]; //Dos armas del jugador
-    int energia = 30; //Energia del jugador
+    double energia = 30; //Energia del jugador
 };
 
 //Funciones
@@ -194,7 +194,7 @@ sJugador inicializarLadron()
 }
 
 //Se encarga de mover a un jugador
-void movimiento(string tablero[][MAXC], int filas, int columnas, sJugador &jugador, bool &turno, sMovimiento dado)
+void movimiento(string tablero[][MAXC], int filas, int columnas, sJugador &policia, sJugador &ladron, bool &turno, sMovimiento dado)
 {
     int posAntigua;
     int movimientosRestantes;
@@ -203,38 +203,300 @@ void movimiento(string tablero[][MAXC], int filas, int columnas, sJugador &jugad
     {
         if (dado.direccion == "arriba")
         {
-            posAntigua = jugador.posF;
-            movimientosRestantes = dado.movimiento;
-            while (jugador.posF - movimientosRestantes < 0)
+            posAntigua = policia.posF;
+            movimientosRestantes = dado.movimiento * -1;
+
+            while (movimientosRestantes != 0)
             {
-                if (jugador.posF - movimientosRestantes < 0)
+                //Rebote cuando llega al limite de la tabla
+                if (policia.posF == 0)
                 {
-                    movimientosRestantes = (jugador.posF - movimientosRestantes) * -1;
-                    if (movimientosRestantes >= filas)
-                    {
-                        movimientosRestantes = (filas - 1 - movimientosRestantes) * -1;
-                    }
-                }                
+                    movimientosRestantes *= -1;
+                }
+                //Movimiento hacia arriba
+                if (movimientosRestantes < 0)
+                {
+                    policia.posF--;
+                    movimientosRestantes++;
+                }
+                //Movimiento hacia abajo
+                else if (movimientosRestantes > 0)
+                {
+                    policia.posF++;
+                    movimientosRestantes--;
+                }
+
+                //Si pasa por encima del otro
+                if (policia.posC == ladron.posC && policia.posF == ladron.posF)
+                {
+                    ladron.energia -= 2;
+                    //looking if something happens
+                }
             }
-            jugador.posF = movimientosRestantes;
-            tablero[posAntigua][jugador.posC] = "x";
-            tablero[jugador.posF][jugador.posC] = "P"; //remplazo de letra por el jugador
+            //Actualización del tablero
+            tablero[posAntigua][policia.posC] = "x";
+            tablero[policia.posF][policia.posC] = "P"; //remplazo de letra por el policia
         }
         else if (dado.direccion == "abajo")
         {
+            posAntigua = policia.posF;
+            movimientosRestantes = dado.movimiento;
 
+            while (movimientosRestantes != 0)
+            {
+                //Rebote cuando llega al limite de la tabla
+                if (policia.posF == filas-1)
+                {
+                    movimientosRestantes *= -1;
+                }
+                //Movimiento hacia arriba
+                if (movimientosRestantes < 0)
+                {
+                    policia.posF--;
+                    movimientosRestantes++;
+                }
+                //Movimiento hacia abajo
+                else if (movimientosRestantes > 0)
+                {
+                    policia.posF++;
+                    movimientosRestantes--;
+                }
+
+                //Si pasa por encima del otro
+                if (policia.posC == ladron.posC && policia.posF == ladron.posF)
+                {
+                    ladron.energia -= 2;
+                    //looking if something happens
+                }
+            }
+            //Actualización del tablero
+            tablero[posAntigua][policia.posC] = "x";
+            tablero[policia.posF][policia.posC] = "P"; //remplazo de letra por el policia
         }
         else if (dado.direccion == "izquierda")
         {
+            posAntigua = policia.posC;
+            movimientosRestantes = dado.movimiento * -1;
 
+            while (movimientosRestantes != 0)
+            {
+                //Rebote cuando llega al limite de la tabla
+                if (policia.posC == 0)
+                {
+                    movimientosRestantes *= -1;
+                }
+                //Movimiento hacia arriba
+                if (movimientosRestantes < 0)
+                {
+                    policia.posC--;
+                    movimientosRestantes++;
+                }
+                //Movimiento hacia abajo
+                else if (movimientosRestantes > 0)
+                {
+                    policia.posC++;
+                    movimientosRestantes--;
+                }
+
+                //Si pasa por encima del otro
+                if (policia.posC == ladron.posC && policia.posF == ladron.posF)
+                {
+                    ladron.energia -= 2;
+                    //looking if something happens
+                }
+            }
+            //Actualización del tablero
+            tablero[policia.posF][posAntigua] = "x";
+            tablero[policia.posF][policia.posC] = "P"; //remplazo de letra por el policia
         }
         else //Derecha
         {
+            posAntigua = policia.posC;
+            movimientosRestantes = dado.movimiento;
 
+            while (movimientosRestantes != 0)
+            {
+                //Rebote cuando llega al limite de la tabla
+                if (policia.posC == filas - 1)
+                {
+                    movimientosRestantes *= -1;
+                }
+                //Movimiento hacia arriba
+                if (movimientosRestantes < 0)
+                {
+                    policia.posC--;
+                    movimientosRestantes++;
+                }
+                //Movimiento hacia abajo
+                else if (movimientosRestantes > 0)
+                {
+                    policia.posC++;
+                    movimientosRestantes--;
+                }
+
+                //Si pasa por encima del otro
+                if (policia.posC == ladron.posC && policia.posF == ladron.posF)
+                {
+                    ladron.energia -= 2;
+                    //looking if something happens
+                }
+            }
+            //Actualización del tablero
+            tablero[policia.posF][posAntigua] = "x";
+            tablero[policia.posF][policia.posC] = "P"; //remplazo de letra por el policia
         }
     }
     else //Ladrón
     {
+        if (dado.direccion == "arriba")
+        {
+            posAntigua = ladron.posF;
+            movimientosRestantes = dado.movimiento * -1;
 
+            while (movimientosRestantes != 0)
+            {
+                //Rebote cuando llega al limite de la tabla
+                if (ladron.posF == 0)
+                {
+                    movimientosRestantes *= -1;
+                }
+                //Movimiento hacia arriba
+                if (movimientosRestantes < 0)
+                {
+                    ladron.posF--;
+                    movimientosRestantes++;
+                }
+                //Movimiento hacia abajo
+                else if (movimientosRestantes > 0)
+                {
+                    ladron.posF++;
+                    movimientosRestantes--;
+                }
+
+                //Si pasa por encima del otro
+                if (policia.posC == ladron.posC && policia.posF == ladron.posF)
+                {
+                    policia.energia -= 2;
+                    //looking if something happens
+                }
+            }
+            //Actualización del tablero
+            tablero[posAntigua][ladron.posC] = "x";
+            tablero[ladron.posF][ladron.posC] = "P"; //remplazo de letra por el ladron
+        }
+        else if (dado.direccion == "abajo")
+        {
+            posAntigua = ladron.posF;
+            movimientosRestantes = dado.movimiento;
+
+            while (movimientosRestantes != 0)
+            {
+                //Rebote cuando llega al limite de la tabla
+                if (ladron.posF == filas - 1)
+                {
+                    movimientosRestantes *= -1;
+                }
+                //Movimiento hacia arriba
+                if (movimientosRestantes < 0)
+                {
+                    ladron.posF--;
+                    movimientosRestantes++;
+                }
+                //Movimiento hacia abajo
+                else if (movimientosRestantes > 0)
+                {
+                    ladron.posF++;
+                    movimientosRestantes--;
+                }
+
+                //Si pasa por encima del otro
+                if (policia.posC == ladron.posC && policia.posF == ladron.posF)
+                {
+                    policia.energia -= 2;
+                    //looking if something happens
+                }
+            }
+            //Actualización del tablero
+            tablero[posAntigua][ladron.posC] = "x";
+            tablero[ladron.posF][ladron.posC] = "P"; //remplazo de letra por el ladron
+        }
+        else if (dado.direccion == "izquierda")
+        {
+            posAntigua = ladron.posC;
+            movimientosRestantes = dado.movimiento * -1;
+
+            while (movimientosRestantes != 0)
+            {
+                //Rebote cuando llega al limite de la tabla
+                if (ladron.posC == 0)
+                {
+                    movimientosRestantes *= -1;
+                }
+                //Movimiento hacia arriba
+                if (movimientosRestantes < 0)
+                {
+                    ladron.posC--;
+                    movimientosRestantes++;
+                }
+                //Movimiento hacia abajo
+                else if (movimientosRestantes > 0)
+                {
+                    ladron.posC++;
+                    movimientosRestantes--;
+                }
+
+                //Si pasa por encima del otro
+                if (policia.posC == ladron.posC && policia.posF == ladron.posF)
+                {
+                    policia.energia -= 2;
+                    //looking if something happens
+                }
+            }
+            //Actualización del tablero
+            tablero[ladron.posF][posAntigua] = "x";
+            tablero[ladron.posF][ladron.posC] = "P"; //remplazo de letra por el ladron
+        }
+        else //Derecha
+        {
+            posAntigua = ladron.posC;
+            movimientosRestantes = dado.movimiento;
+
+            while (movimientosRestantes != 0)
+            {
+                //Rebote cuando llega al limite de la tabla
+                if (ladron.posC == filas - 1)
+                {
+                    movimientosRestantes *= -1;
+                }
+                //Movimiento hacia arriba
+                if (movimientosRestantes < 0)
+                {
+                    ladron.posC--;
+                    movimientosRestantes++;
+                }
+                //Movimiento hacia abajo
+                else if (movimientosRestantes > 0)
+                {
+                    ladron.posC++;
+                    movimientosRestantes--;
+                }
+
+                //Si pasa por encima del otro
+                if (policia.posC == ladron.posC && policia.posF == ladron.posF)
+                {
+                    policia.energia -= 2;
+                    //looking if something happens
+                }
+            }
+            //Actualización del tablero
+            tablero[ladron.posF][posAntigua] = "x";
+            tablero[ladron.posF][ladron.posC] = "P"; //remplazo de letra por el ladron
+        }
+    }
+
+    //En caso de que queden en la misma posición
+    if (policia.posC == ladron.posC && policia.posF == ladron.posF)
+    {
+        tablero[policia.posF][policia.posC] = "P-L";
     }
 }
