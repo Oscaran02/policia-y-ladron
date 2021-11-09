@@ -38,6 +38,7 @@ sMovimiento dados();
 sArma inicializarArmas(sArma arma);
 sJugador inicializarPolicia(int filas, int columnas);
 sJugador inicializarLadron();
+void movimiento(string tablero[][MAXC], int filas, int columnas, sJugador& policia, sJugador& ladron, bool& turno, sMovimiento dado);
 
 //Función principal
 int main()
@@ -201,6 +202,7 @@ void movimiento(string tablero[][MAXC], int filas, int columnas, sJugador &polic
     dado = dados();
     if (turno) //Policia
     {
+        turno = false; //Le da el turno al ladrón
         if (dado.direccion == "arriba")
         {
             posAntigua = policia.posF;
@@ -348,6 +350,7 @@ void movimiento(string tablero[][MAXC], int filas, int columnas, sJugador &polic
     }
     else //Ladrón
     {
+        turno = true; //Le da el turno al policia
         if (dado.direccion == "arriba")
         {
             posAntigua = ladron.posF;
