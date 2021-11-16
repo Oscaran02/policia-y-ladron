@@ -85,10 +85,9 @@ int main()
         }
         std::system("pause");
         std::system("cls");
-
         //Si entra en modo duelo
-        for (int i = policia.posF - 1; i < policia.posF + 1; i++) {
-            for (int j = policia.posC - 1; i < policia.posC + 1; j++) {
+        for (int i = policia.posF - 1; i <= policia.posF + 1; i++) {
+            for (int j = policia.posC - 1; j <= policia.posC + 1; j++) {
                 if (ladron.posF == i && ladron.posC == j) {
                     cout << "\n\n\t SE HA ENTRADO EN MODO DUELO!" << endl;
                     std::system("pause");
@@ -345,7 +344,7 @@ void movimiento(string tablero[][MAXC], int filas, int columnas, sJugador &polic
             while (movimientosRestantes != 0)
             {
                 //Rebote cuando llega al limite de la tabla
-                if (policia.posC == filas - 1)
+                if (policia.posC == columnas - 1)
                 {
                     movimientosRestantes *= -1;
                 }
@@ -493,7 +492,7 @@ void movimiento(string tablero[][MAXC], int filas, int columnas, sJugador &polic
             while (movimientosRestantes != 0)
             {
                 //Rebote cuando llega al limite de la tabla
-                if (ladron.posC == filas - 1)
+                if (ladron.posC == columnas - 1)
                 {
                     movimientosRestantes *= -1;
                 }
@@ -564,7 +563,8 @@ void duelo(sJugador& policia, sJugador& ladron)
             cout << "\n\n\t\tTURNO DEL LADRON \n\n" << endl;
             cout << "Energia del ladron: " << ladron.energia << endl;
             cout << "Energia del policia: " << policia.energia << endl;
-            arma = rand() % (1);
+            arma = 1 + rand() % (2);
+            arma == 1 ? arma = 0 : arma = 1;
             cout << "\n\nSe ha escogido el arma " << ladron.armas[arma].nombre << endl;
             dmg = ataque(ladron.armas[arma], dado);
             cout << "\n\nAtacando..." << endl;
